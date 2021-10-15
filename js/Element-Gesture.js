@@ -116,6 +116,7 @@ var mousedownEvt = function (event) {
 var touchstartEvt = function (event) {
     var _this = this;
     var touchmove = function (event) {
+        event.preventDefault();
         requestAnimationFrame(function () {
             var clientX = event.touches[0].clientX;
             var clientY = event.touches[0].clientY;
