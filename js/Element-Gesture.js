@@ -117,7 +117,7 @@ var touchstartEvt = function (event) {
     var _this = this;
     var touchmove = function (event) {
         event.preventDefault();
-        event.stopPropagation();
+        
         requestAnimationFrame(function () {
             var clientX = event.touches[0].clientX;
             var clientY = event.touches[0].clientY;
@@ -168,7 +168,7 @@ var touchstartEvt = function (event) {
             _this.gestureData.dragEnd = _this.gestureData.drag ? _this.gestureData.drag : _this.gestureData.dragStart;
             _this.gestureData.dragEnd.type = 'dragEnd';
             event.preventDefault();
-            event.stopPropagation();
+         
             $event[eventMap[event.type]](_this.gestureData.dragEnd, _this, event);
         }
         _this.gestureData.drag && (_this.gestureData.drag = undefined);
