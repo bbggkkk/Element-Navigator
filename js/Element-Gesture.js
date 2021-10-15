@@ -45,7 +45,7 @@ var mousedownEvt = function (event) {
     var _this = this;
     var mousemove = function (event) {
         requestAnimationFrame(function () {
-            event.preventDefault();
+            
             var clientX = event.clientX, clientY = event.clientY, moveX = event.movementX, moveY = event.movementY;
             if(Object.keys(_this.gestureData).length === 0)     return;
             var distance1 = clientX - _this.gestureData.dragStart.start[0];
