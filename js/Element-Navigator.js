@@ -56,6 +56,7 @@
                         $windowBack.animation.goToAndStop(start);
                         $windowBack.classList.add('dragging');
                     }
+                    $window.addEventListener('transitionend',endGesture);
                 },
                 drag      : (param,ele,evt) => {
                     const [x, y] = param.distance;
@@ -78,24 +79,33 @@
                     if((dx > 0 && mx > 20) || (mx <= 20 && x > document.documentElement.offsetWidth/2)){
                         back($window,$windowBack);
                     }else{
-                        $window.animation.goToAndStop(start);
-                        $window.classList.remove('dragging');
-                        if($windowBack !== null){
-                            $windowBack.animation.goToAndStop(start);
-                            $windowBack.classList.remove('dragging');
-                        }
+                        reback($window,$windowBack);
+                        // $window.animation.goToAndStop(start);
+                        // $window.classList.remove('dragging');
+                        // if($windowBack !== null){
+                        //     $windowBack.animation.goToAndStop(start);
+                        //     $windowBack.classList.remove('dragging');
+                        // }
                     }
 
                 }
             });
 
+            function endGesture(){
+
+            }
             function back($window,$windowBack){
-                $window.addEventListener('transitionend',() => {
-                    $window.animation.unload();
-                    $window.remove();
-                });
                 $window.classList.add('removing');
+                $window.classList.remove('dragging');
                 $windowBack.classList.add('recent');
+                $windowBack.classList.add('removing');
+                $windowBack.classList.remove('dragging');
+            }
+            function reback($window,$windowBack){
+                $window.classList.add('rebacking');
+                $window.classList.remove('dragging');
+                $windowBack.classList.add('recent');
+                $windowBack.classList.add('rebacking');
                 $windowBack.classList.remove('dragging');
             }
         }

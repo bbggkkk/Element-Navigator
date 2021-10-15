@@ -22,7 +22,24 @@ body,html {
 .window:nth-last-of-type(1):not(.recent){
     animation:window-popin 0.4s;
 }
-.window:nth-last-of-type(2){
+
+.window:not(.dragging) {
+    transition:all 0.4s;
+}
+.window.removing:nth-last-of-type(1) {
+    transform:translate(100%,0) !important;
+}
+.window.removing:nth-last-of-type(2) {
+    transform:translate(0%,0) !important;
+}
+
+.window.rebacking:nth-last-of-type(1) {
+    transform:translate(0%,0) !important;
+}
+.window.rebacking:nth-last-of-type(2) {
+    transform:translate(-25%,0) !important;
+}
+/* .window:nth-last-of-type(2){
     animation:window-backin 0.4s reverse;
 }
 .window:not(.dragging):not(.removing) {
@@ -40,7 +57,7 @@ body,html {
 .window:nth-last-of-type(2).removing {
     transition:all 0.4s;
     transform:translate(0%,0) !important;
-}
+} */
 
 .window .gesture-area > * {
     position:absolute;
