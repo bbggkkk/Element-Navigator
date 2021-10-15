@@ -105,11 +105,14 @@
             }
             function back($window,$windowBack){
                 $window.classList.add('removing');
-                $windowBack.classList.add('recent');
-                $windowBack.classList.add('removing');
+
+                if($windowBack !== null){ 
+                    $windowBack.classList.add('recent');
+                    $windowBack.classList.add('removing');
+                    $windowBack.classList.remove('dragging');
+                }
 
                 $window.classList.remove('dragging');
-                $windowBack.classList.remove('dragging');
             }
             function reback($window,$windowBack){
                 $window.classList.add('rebacking');
