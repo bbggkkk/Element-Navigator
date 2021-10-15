@@ -91,7 +91,7 @@
                         }
     
                         if((dx > 0 && mx > 20) || (mx <= 20 && x > document.documentElement.offsetWidth/2)){
-                            back($window,$windowBack);
+                            this.backWindow($window,$windowBack);
                         }else{
                             reback($window,$windowBack);
                         }
@@ -115,17 +115,6 @@
                     $window.classList.remove('rebacking');
                 }
             }
-            function back($window,$windowBack){
-                $window.classList.add('removing');
-                $window.classList.remove('dragging');
-
-                if($windowBack !== null){ 
-                    $windowBack.classList.add('recent');
-                    $windowBack.classList.add('removing');
-                    $windowBack.classList.remove('dragging');
-                }
-
-            }
             function reback($window,$windowBack){
                 $window.classList.add('rebacking');
                 $window.classList.remove('dragging');
@@ -145,6 +134,22 @@
                 arr.push(node[i]);
             }
             return arr;
+        }
+        back(){
+            if(this.window.length !== 0)
+            this.backWindow(this.window[this.window.length-1],this.window[this.window.length-2]);
+        }
+        
+        backWindow($window,$windowBack){
+            $window.classList.add('removing');
+            $window.classList.remove('dragging');
+
+            if($windowBack !== null){ 
+                $windowBack.classList.add('recent');
+                $windowBack.classList.add('removing');
+                $windowBack.classList.remove('dragging');
+            }
+
         }
     }
     window.ElementNavigator = ElementNavigator;

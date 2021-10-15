@@ -47,6 +47,7 @@ var mousedownEvt = function (event) {
         requestAnimationFrame(function () {
             event.preventDefault();
             var clientX = event.clientX, clientY = event.clientY, moveX = event.movementX, moveY = event.movementY;
+            if(Object.keys(_this.gestureData).length === 0)     return;
             var distance1 = clientX - _this.gestureData.dragStart.start[0];
             var distance2 = clientY - _this.gestureData.dragStart.start[1];
             var distance3 = Math.sqrt(Math.abs(distance1 * distance1) + Math.abs(distance2 * distance2));
@@ -120,7 +121,7 @@ var touchstartEvt = function (event) {
             var clientY = event.touches[0].clientY;
             var moveX = _this.gestureData.drag ? clientX - _this.gestureData.drag.prePosition[0] : 0;
             var moveY = _this.gestureData.drag ? clientY - _this.gestureData.drag.prePosition[1] : 0;
-            console.log(_this.gestureData);
+            if(Object.keys(_this.gestureData).length === 0)     return;
             var distance1 = clientX - _this.gestureData.dragStart.start[0];
             var distance2 = clientY - _this.gestureData.dragStart.start[1];
             var distance3 = Math.sqrt(Math.abs(distance1 * distance1) + Math.abs(distance2 * distance2));
