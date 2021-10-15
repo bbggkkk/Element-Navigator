@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element Navigator</title>
+
+    <link href="./manifest.json"        rel="manifest">
+    <link href="./css/reset.css"        rel="stylesheet">
+    <link href="./css/animation.css"    rel="stylesheet">
+    <link href="./css/style.css"        rel="stylesheet">
+</head>
+<body>
+
+    <button     style="position:fixed; bottom:12px; right:12px; background:rgba(24,24,24,0.9); color:white; font-weight:bold; display:flex; justify-content:center; align-items:center; border-radius:50%; width:64px; height:64px; box-shadow:0 8px 16px rgba(0,0,0,0.2); font-size:12px; z-index:9999;"
+                onclick="document.body.append(document.importNode(document.querySelector('template').content,true));">
+        추가
+    </button>
+
+    <template>
+        <div class="window">
+            <div class="window-view">
+                <header>
+                    <div class="title">Window <span data-bind="idx"></span></div>
+                    <div class="fn">
+                        <div class="fn-area fn-left">back</div>
+                        <div class="fn-area fn-right">go</div>
+                    </div>
+                </header>
+                <main>
+                    <div class="content-wrap">
+                        hi
+                    </div>
+                </main>
+            </div>
+            <div class="gesture-area">
+                <p class="back"></p>
+            </div>
+        </div>
+    </template>
+    
+    <script src="./js/scroll-animation.js"></script>
+    <script src="./js/Element-Gesture.js"></script>
+    <script src="./js/Element-Navigator.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>

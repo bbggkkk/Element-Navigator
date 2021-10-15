@@ -1,0 +1,24 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body, html {
+    width:100%;
+    height:100%;
+    color:var(--text);
+}
+img {
+    display:block;
+    width:100%;
+}
+button {
+    all:unset;
+}
+a {
+    text-decoration:none;
+    color:var(--text);
+}
+li {
+    list-style:none;
+}

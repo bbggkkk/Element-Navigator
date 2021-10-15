@@ -1,0 +1,26 @@
+@keyframes window-popup {
+    from { transform:translateY(100%); }
+    to   { transform:translateY(0%); }
+}
+@keyframes window-popdown {
+    from { transform:translateY(0%); }
+    to   { transform:translateY(100%); }
+}
+
+@keyframes window-popin {
+    from { transform:translateX(100%); }
+    to   { transform:translateX(0%); }
+}
+@keyframes window-popout {
+    from { transform:translateX(0%); }
+    to   { transform:translateX(100%); }
+}
+
+@keyframes window-backin {
+    from { transform:translateX(-25%); }
+    to   { transform:translateX(0%); }
+}
+@keyframes window-backout {
+    from { transform:translateX(0%); }
+    to   { transform:translateX(100%); }
+}

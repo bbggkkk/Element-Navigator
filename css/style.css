@@ -1,0 +1,111 @@
+:root {
+    --gs-back-offset-w:12px;
+    --gs-back-offset-h:100%;
+
+    --content-padding:12px;
+}
+
+body,html {
+    overflow:hidden;
+}
+
+.window {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    
+    overflow:hidden;
+    box-shadow:0 32px 64px rgba(0,0,0,0.2);
+}
+.window:nth-last-of-type(1):not(.recent){
+    animation:window-popin 0.4s;
+}
+.window:nth-last-of-type(2){
+    animation:window-backin 0.4s reverse;
+}
+.window:not(.dragging):not(.removing) {
+    transition:all 0.4s;
+    transform:translate(0%,0) !important;
+}
+.window.removing {
+    transition:all 0.4s;
+    transform:translate(100%,0) !important;
+}
+
+.window .gesture-area > * {
+    position:absolute;
+    z-index:10;
+}
+.window .gesture-area .back {
+    top:50%;
+    left:0;
+    width:var(--gs-back-offset-w);
+    height:var(--gs-back-offset-h);
+    transform:translateY(-50%);
+
+    background:red;
+}
+
+.window .window-view {
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    background:#fff;
+
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+
+.window-view header {
+    width:100%;
+    height:60px;
+    background:rgba(255,255,255,0.8);
+    position:fixed;
+    z-index:9;
+}
+
+.window-view header .title {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.window-view header .fn .fn-area {
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+
+    width:60px;
+    height:60px;
+    background:green;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.window-view header .fn .fn-left {
+    left:0;
+}
+.window-view header .fn .fn-right {
+    right:0;
+}
+
+.window-view main {
+    position:absolute;
+    top:0;
+    left:0;
+    padding-top:60px;
+    z-index:2;
+}
+.window-view main.fit {
+    padding-top:0;
+}
+
+.window-view .content-wrap {
+    padding:0 var(--content-padding);
+}

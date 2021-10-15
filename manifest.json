@@ -1,0 +1,26 @@
+{
+    "short_name": "프로젝트 이름(아이콘의 이름으로 표시됨)",
+    "name": "설치 배너에 표시되는 이름(검색의 키워드로 사용됨)",
+    "icons": [
+        {
+            "src": "favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "images/icon192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icon512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "./index.html",
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}
