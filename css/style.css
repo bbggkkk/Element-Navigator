@@ -23,7 +23,7 @@ body,html {
     transform:translate(0,0);
 }
 .window:nth-last-of-type(1):not(.recent){
-    /* animation:window-popin var(--transition-speed); */
+    animation:window-popin var(--transition-speed);
     
     /* transform:translate(0,0) !important; */
 }

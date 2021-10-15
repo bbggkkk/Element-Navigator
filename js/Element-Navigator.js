@@ -60,7 +60,7 @@
             defineGesture();
             
             function defineGesture(){
-                gestureArea.gesture({
+                $window.gesture({
                     dragStart : (param,ele,evt) => {
                         $window.animation.goToAndStop(_this.start);
                         $window.classList.add('dragging');
@@ -82,8 +82,7 @@
                         }
                     },
                     dragEnd   : (param,ele,evt) => {
-                        dragOn = false;
-                        
+                        if(!dragOn) return;
                         const [x, y]   = param.distance;
                         const [mx, my] = param.move;
                         const [dx, dy] = param.direction;
@@ -99,6 +98,7 @@
                             _this.rebackWindow($window,$windowBack);
                         }
     
+                        dragOn = false;
                     }
                 });
             }
