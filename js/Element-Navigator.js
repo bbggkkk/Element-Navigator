@@ -30,6 +30,7 @@
                 });
                 item.classList.remove('removing');
                 item.classList.remove('rebacking');
+                item.gesture(false);
             });
 
             if(this.window.length > 0)
