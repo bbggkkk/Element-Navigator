@@ -31,7 +31,7 @@ body,html {
 }
 .window:nth-last-of-type(2):not(.dragging):not(.removing) {
     transition:all 0.4s;
-    transform:translate(25%,0) !important;
+    transform:translate(-25%,0) !important;
 }
 .window.removing {
     transition:all 0.4s;
