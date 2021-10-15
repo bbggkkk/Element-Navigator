@@ -1,5 +1,5 @@
 :root {
-    --gs-back-offset-w:12px;
+    --gs-back-offset-w:16px;
     --gs-back-offset-h:100%;
 
     --content-padding:12px;
@@ -23,41 +23,28 @@ body,html {
     animation:window-popin 0.4s;
 }
 
-.window:not(.dragging) {
+.window:not(.dragging){
     transition:all 0.4s;
 }
-.window.removing:nth-last-of-type(1) {
+.window:nth-last-of-type(1):not(.dragging) {
+    transform:translate(0,0) !important;
+}
+.window:nth-last-of-type(n+2):not(.dragging) {
+    transform:translate(-25%,0) !important;
+}
+.window.removing:nth-last-of-type(1):not(.dragging) {
     transform:translate(100%,0) !important;
 }
-.window.removing:nth-last-of-type(2) {
-    transform:translate(0%,0) !important;
+.window.removing:nth-last-of-type(2):not(.dragging) {
+    transform:translate(0,0) !important;
 }
 
-.window.rebacking:nth-last-of-type(1) {
-    transform:translate(0%,0) !important;
+.window.rebacking:nth-last-of-type(1):not(.dragging) {
+    transform:translate(0,0) !important;
 }
-.window.rebacking:nth-last-of-type(2) {
+.window.rebacking:nth-last-of-type(n+2):not(.dragging) {
     transform:translate(-25%,0) !important;
 }
-/* .window:nth-last-of-type(2){
-    animation:window-backin 0.4s reverse;
-}
-.window:not(.dragging):not(.removing) {
-    transition:all 0.4s;
-    transform:translate(0%,0) !important;
-}
-.window:nth-last-of-type(2):not(.dragging):not(.removing) {
-    transition:all 0.4s;
-    transform:translate(-25%,0) !important;
-}
-.window.removing {
-    transition:all 0.4s;
-    transform:translate(100%,0) !important;
-}
-.window:nth-last-of-type(2).removing {
-    transition:all 0.4s;
-    transform:translate(0%,0) !important;
-} */
 
 .window .gesture-area > * {
     position:absolute;
@@ -107,7 +94,7 @@ body,html {
 
     width:60px;
     height:60px;
-    background:green;
+    /* background:green; */
 
     display:flex;
     justify-content:center;

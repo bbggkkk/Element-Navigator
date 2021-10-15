@@ -43,12 +43,15 @@
                 $windowBack.animation = new KeyframeAnimation($windowBack, window, 'window-backin', start, end);
             }
             
-            const offset = 10;
+            const dragOffset = 10;
 
             // $window.classList.add('notnew');
             
             let dragOn = false;
-            gestureArea.gesture({
+            if($windowBack !== null){
+                $windowBack.gesture(false);
+            }
+            $window.gesture({
                 dragStart : (param,ele,evt) => {
                     $window.animation.goToAndStop(start);
                     $window.classList.add('dragging');
@@ -61,7 +64,7 @@
                 drag      : (param,ele,evt) => {
                     const [x, y] = param.distance;
                     const frame  = Math.round(x);
-                    if(Math.abs(x) > offset){ dragOn = true; }
+                    if(Math.abs(x) > dragOffset){ dragOn = true; }
                     if(dragOn){
                         $window.animation.goToAndStop(frame);
                         if($windowBack !== null){
@@ -80,33 +83,44 @@
                         back($window,$windowBack);
                     }else{
                         reback($window,$windowBack);
-                        // $window.animation.goToAndStop(start);
-                        // $window.classList.remove('dragging');
-                        // if($windowBack !== null){
-                        //     $windowBack.animation.goToAndStop(start);
-                        //     $windowBack.classList.remove('dragging');
-                        // }
                     }
 
                 }
             });
 
-            function endGesture(){
-
+            function endGesture(e){
+                const ts = e.target;
+                if($windowBack !== null){
+                    $windowBack.classList.remove('removing');
+                    $windowBack.classList.remove('rebacking');
+                }
+                if(ts.classList.contains('removing')){
+                    ts.animation.unload();
+                    $windowBack.gesture(false);
+                    ts.remove();
+                }else{
+                    $window.classList.remove('removing');
+                    $window.classList.remove('rebacking');
+                }
             }
             function back($window,$windowBack){
                 $window.classList.add('removing');
-                $window.classList.remove('dragging');
                 $windowBack.classList.add('recent');
                 $windowBack.classList.add('removing');
+
+                $window.classList.remove('dragging');
                 $windowBack.classList.remove('dragging');
             }
             function reback($window,$windowBack){
                 $window.classList.add('rebacking');
+                
+                if($windowBack !== null){ 
+                    $windowBack.classList.add('recent');
+                    $windowBack.classList.add('rebacking');
+                    $windowBack.classList.remove('dragging');
+                }
+
                 $window.classList.remove('dragging');
-                $windowBack.classList.add('recent');
-                $windowBack.classList.add('rebacking');
-                $windowBack.classList.remove('dragging');
             }
         }
 
