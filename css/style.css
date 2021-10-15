@@ -37,6 +37,10 @@ body,html {
     transition:all 0.4s;
     transform:translate(100%,0) !important;
 }
+.window:nth-last-of-type(2).removing {
+    transition:all 0.4s;
+    transform:translate(0%,0) !important;
+}
 
 .window .gesture-area > * {
     position:absolute;
@@ -49,7 +53,7 @@ body,html {
     height:var(--gs-back-offset-h);
     transform:translateY(-50%);
 
-    background:red;
+    /* background:red; */
 }
 
 .window .window-view {
