@@ -166,6 +166,7 @@ var touchstartEvt = function (event) {
         if (eventMap[event.type] === 'dragEnd') {
             _this.gestureData.dragEnd = _this.gestureData.drag ? _this.gestureData.drag : _this.gestureData.dragStart;
             _this.gestureData.dragEnd.type = 'dragEnd';
+            event.preventDefault();
             $event[eventMap[event.type]](_this.gestureData.dragEnd, _this, event);
         }
         _this.gestureData.drag && (_this.gestureData.drag = undefined);
