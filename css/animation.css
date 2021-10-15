@@ -17,7 +17,7 @@
 }
 
 @keyframes window-backin {
-    from { transform:translateX(-25%); }
+    from { transform:translateX(-50%); }
     to   { transform:translateX(0%); }
 }
 @keyframes window-backout {

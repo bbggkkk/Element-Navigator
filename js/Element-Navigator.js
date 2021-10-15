@@ -24,6 +24,8 @@
                 this.nodeToArray(item.querySelectorAll('[data-bind="idx"]')).forEach($item => {
                     $item.innerText = idx;
                 });
+                item.classList.remove('removing');
+                item.classList.remove('rebacking');
             });
 
             if(this.window.length)
@@ -51,42 +53,52 @@
             if($windowBack !== null){
                 $windowBack.gesture(false);
             }
-            $window.gesture({
-                dragStart : (param,ele,evt) => {
-                    $window.animation.goToAndStop(start);
-                    $window.classList.add('dragging');
-                    if($windowBack !== null){
-                        $windowBack.animation.goToAndStop(start);
-                        $windowBack.classList.add('dragging');
-                    }
-                    $window.addEventListener('transitionend',endGesture);
-                },
-                drag      : (param,ele,evt) => {
-                    const [x, y] = param.distance;
-                    const frame  = Math.round(x);
-                    if(Math.abs(x) > dragOffset){ dragOn = true; }
-                    if(dragOn){
-                        $window.animation.goToAndStop(frame);
+
+            defineGesture();
+            
+            function defineGesture(){
+                $window.gesture({
+                    dragStart : (param,ele,evt) => {
+                        $window.animation.goToAndStop(start);
+                        $window.classList.add('dragging');
                         if($windowBack !== null){
-                            $windowBack.animation.goToAndStop(frame);
+                            $windowBack.animation.goToAndStop(start);
+                            $windowBack.classList.add('dragging');
                         }
-                    }
-                },
-                dragEnd   : (param,ele,evt) => {
-                    dragOn = false;
-                    
-                    const [x, y]   = param.distance;
-                    const [mx, my] = param.move;
-                    const [dx, dy] = param.direction;
+                        $window.addEventListener('transitionend',endGesture);
+                    },
+                    drag      : (param,ele,evt) => {
+                        const [x, y] = param.distance;
+                        const frame  = Math.round(x);
+                        if(Math.abs(x) > dragOffset){ dragOn = true; }
+                        if(dragOn){
+                            $window.animation.goToAndStop(frame);
+                            if($windowBack !== null){
+                                $windowBack.animation.goToAndStop(frame);
+                            }
+                        }
+                    },
+                    dragEnd   : (param,ele,evt) => {
+                        dragOn = false;
+                        
+                        const [x, y]   = param.distance;
+                        const [mx, my] = param.move;
+                        const [dx, dy] = param.direction;
 
-                    if((dx > 0 && mx > 20) || (mx <= 20 && x > document.documentElement.offsetWidth/2)){
-                        back($window,$windowBack);
-                    }else{
-                        reback($window,$windowBack);
+                        $window.gesture(false);
+                        if($windowBack !== null){ 
+                            $windowBack.gesture(false);
+                        }
+    
+                        if((dx > 0 && mx > 20) || (mx <= 20 && x > document.documentElement.offsetWidth/2)){
+                            back($window,$windowBack);
+                        }else{
+                            reback($window,$windowBack);
+                        }
+    
                     }
-
-                }
-            });
+                });
+            }
 
             function endGesture(e){
                 const ts = e.target;
@@ -96,15 +108,16 @@
                 }
                 if(ts.classList.contains('removing')){
                     ts.animation.unload();
-                    $windowBack.gesture(false);
                     ts.remove();
                 }else{
+                    defineGesture();
                     $window.classList.remove('removing');
                     $window.classList.remove('rebacking');
                 }
             }
             function back($window,$windowBack){
                 $window.classList.add('removing');
+                $window.classList.remove('dragging');
 
                 if($windowBack !== null){ 
                     $windowBack.classList.add('recent');
@@ -112,10 +125,10 @@
                     $windowBack.classList.remove('dragging');
                 }
 
-                $window.classList.remove('dragging');
             }
             function reback($window,$windowBack){
                 $window.classList.add('rebacking');
+                $window.classList.remove('dragging');
                 
                 if($windowBack !== null){ 
                     $windowBack.classList.add('recent');
@@ -123,7 +136,6 @@
                     $windowBack.classList.remove('dragging');
                 }
 
-                $window.classList.remove('dragging');
             }
         }
 

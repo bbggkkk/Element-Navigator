@@ -3,6 +3,8 @@
     --gs-back-offset-h:100%;
 
     --content-padding:12px;
+    --transition-speed:0.5s;
+    --back-position:-50%;
 }
 
 body,html {
@@ -18,24 +20,27 @@ body,html {
     
     overflow:hidden;
     box-shadow:0 32px 64px rgba(0,0,0,0.2);
+    transform:translate(0,0);
 }
 .window:nth-last-of-type(1):not(.recent){
-    animation:window-popin 0.4s;
+    /* animation:window-popin var(--transition-speed); */
+    
+    /* transform:translate(0,0) !important; */
 }
 
 .window:not(.dragging){
-    transition:all 0.4s;
+    transition:all var(--transition-speed);
 }
 .window:nth-last-of-type(1):not(.dragging) {
     transform:translate(0,0) !important;
 }
-.window:nth-last-of-type(n+2):not(.dragging) {
-    transform:translate(-25%,0) !important;
+.window:nth-last-of-type(2+n):not(.dragging) {
+    transform:translate(var(--back-position),0) !important;
 }
 .window.removing:nth-last-of-type(1):not(.dragging) {
     transform:translate(100%,0) !important;
 }
-.window.removing:nth-last-of-type(2):not(.dragging) {
+.window.removing:nth-last-of-type(n+2):not(.dragging) {
     transform:translate(0,0) !important;
 }
 
@@ -43,7 +48,7 @@ body,html {
     transform:translate(0,0) !important;
 }
 .window.rebacking:nth-last-of-type(n+2):not(.dragging) {
-    transform:translate(-25%,0) !important;
+    transform:translate(var(--back-position),0) !important;
 }
 
 .window .gesture-area > * {
