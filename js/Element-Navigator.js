@@ -3,6 +3,10 @@
         constructor(root){
             this.root   = root;
             this.window = [];
+            
+            this.start     = 0;
+            this.end       = () => document.documentElement.offsetWidth;
+            
             this.init();
         }
 
@@ -28,21 +32,20 @@
                 item.classList.remove('rebacking');
             });
 
-            if(this.window.length)
+            if(this.window.length > 0)
             this.bindWindowEvent(this.window,this.window.length-1);
         }
 
         bindWindowEvent($windowList,lng){
+            const _this = this;
             const animation = 'window-backout';
-            const start      = 0;
-            const end       = () => document.documentElement.offsetWidth;
             const $window   = $windowList[lng];
             const $windowBack = lng > 0 ? $windowList[lng-1] : null;
-            $window.animation  = new KeyframeAnimation($window, window, animation, start, end);
+            $window.animation  = new KeyframeAnimation($window, window, animation, this.start, this.end);
             const gestureArea = $window.querySelector(':scope .gesture-area .back');
 
             if($windowBack !== null){
-                $windowBack.animation = new KeyframeAnimation($windowBack, window, 'window-backin', start, end);
+                $windowBack.animation = new KeyframeAnimation($windowBack, window, 'window-backin', this.start, this.end);
             }
             
             const dragOffset = 10;
@@ -57,15 +60,15 @@
             defineGesture();
             
             function defineGesture(){
-                $window.gesture({
+                gestureArea.gesture({
                     dragStart : (param,ele,evt) => {
-                        $window.animation.goToAndStop(start);
+                        $window.animation.goToAndStop(_this.start);
                         $window.classList.add('dragging');
                         if($windowBack !== null){
-                            $windowBack.animation.goToAndStop(start);
+                            $windowBack.animation.goToAndStop(_this.start);
                             $windowBack.classList.add('dragging');
                         }
-                        $window.addEventListener('transitionend',endGesture);
+                        $window.addEventListener('transitionend',_this.endGesture);
                     },
                     drag      : (param,ele,evt) => {
                         const [x, y] = param.distance;
@@ -91,16 +94,16 @@
                         }
     
                         if((dx > 0 && mx > 20) || (mx <= 20 && x > document.documentElement.offsetWidth/2)){
-                            this.backWindow($window,$windowBack);
+                            _this.backWindow($window,$windowBack);
                         }else{
-                            reback($window,$windowBack);
+                            _this.rebackWindow($window,$windowBack);
                         }
     
                     }
                 });
             }
 
-            function endGesture(e){
+            this.endGesture = (e) => {
                 const ts = e.target;
                 if($windowBack !== null){
                     $windowBack.classList.remove('removing');
@@ -115,17 +118,18 @@
                     $window.classList.remove('rebacking');
                 }
             }
-            function reback($window,$windowBack){
-                $window.classList.add('rebacking');
-                $window.classList.remove('dragging');
-                
-                if($windowBack !== null){ 
-                    $windowBack.classList.add('recent');
-                    $windowBack.classList.add('rebacking');
-                    $windowBack.classList.remove('dragging');
-                }
 
-            }
+            // function reback($window,$windowBack){
+            //     $window.classList.add('rebacking');
+            //     $window.classList.remove('dragging');
+                
+            //     if($windowBack !== null){ 
+            //         $windowBack.classList.add('recent');
+            //         $windowBack.classList.add('rebacking');
+            //         $windowBack.classList.remove('dragging');
+            //     }
+
+            // }
         }
 
         nodeToArray(node){
@@ -136,10 +140,23 @@
             return arr;
         }
         back(){
-            if(this.window.length !== 0)
-            this.backWindow(this.window[this.window.length-1],this.window[this.window.length-2]);
+            const $window = this.window[this.window.length-1];
+            const $windowBack = this.window[this.window.length-2];
+            if(this.window.length > 0){
+                
+                $window.gesture(false);
+                if($windowBack !== null){ 
+                    $windowBack.gesture(false);
+                }
+                $window.animation.goToAndStop(this.start);
+
+                if($window !== null){
+                    $window.animation.goToAndStop(this.start);
+                }
+                $window.addEventListener('transitionend',this.endGesture);
+                this.backWindow($window,$windowBack);
+            }
         }
-        
         backWindow($window,$windowBack){
             $window.classList.add('removing');
             $window.classList.remove('dragging');
@@ -147,6 +164,20 @@
             if($windowBack !== null){ 
                 $windowBack.classList.add('recent');
                 $windowBack.classList.add('removing');
+                $windowBack.classList.remove('dragging');
+            }
+
+        }
+        reback(){
+            this.rebackWindow(this.window[this.window.length-1],this.window[this.window.length-2]);
+        }
+        rebackWindow($window,$windowBack){
+            $window.classList.add('rebacking');
+            $window.classList.remove('dragging');
+            
+            if($windowBack !== null){ 
+                $windowBack.classList.add('recent');
+                $windowBack.classList.add('rebacking');
                 $windowBack.classList.remove('dragging');
             }
 
