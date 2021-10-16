@@ -1,10 +1,10 @@
 (function(){
 
-    HTMLElement.prototype.gesture = ({
+    HTMLElement.prototype.gesture = function({
         dragStart,
         drag,
         dragEnd
-    }) => {
+    }){
         console.log(this);
 
     }
