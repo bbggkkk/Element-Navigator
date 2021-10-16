@@ -13,10 +13,12 @@
 </head>
 <body>
 
-    <button     style="position:fixed; bottom:12px; right:12px; background:rgba(24,24,24,0.9); color:white; font-weight:bold; display:flex; justify-content:center; align-items:center; border-radius:50%; width:64px; height:64px; box-shadow:0 8px 16px rgba(0,0,0,0.2); font-size:12px; z-index:9999;"
+    <div id="test"></div>
+
+    <!-- <button     style="position:fixed; bottom:12px; right:12px; background:rgba(24,24,24,0.9); color:white; font-weight:bold; display:flex; justify-content:center; align-items:center; border-radius:50%; width:64px; height:64px; box-shadow:0 8px 16px rgba(0,0,0,0.2); font-size:12px; z-index:9999;"
                 onclick="document.body.append(document.importNode(document.querySelector('template').content,true));">
         추가
-    </button>
+    </button> -->
 
     <template>
         <div class="window">
@@ -43,6 +45,7 @@
         </div>
     </template>
     
+    <script src="./js/gesture.js"></script>
     <script src="./js/scroll-animation.js"></script>
     <script src="./js/Element-Gesture.js"></script>
     <script src="./js/Element-Navigator.js"></script>
