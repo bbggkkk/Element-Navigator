@@ -17,10 +17,19 @@
 }
 
 @keyframes window-backin {
-    from { transform:translateX(-50%); }
-    to   { transform:translateX(0%); }
+    from { transform:translateX(-50%); box-shadow:0 0px  0px rgba(0,0,0,0); }
+    to   { transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
 }
 @keyframes window-backout {
-    from { transform:translateX(0%); }
-    to   { transform:translateX(100%); }
+    from { transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
+    to   { transform:translateX(100%); box-shadow:0 0px  0px rgba(0,0,0,0); }
+}
+
+@keyframes window-backin-item {
+    from { opacity:0; }
+    to   { opacity:1; }
+}
+@keyframes window-backout-item {
+    from { opacity:1; }
+    to   { opacity:0; }
 }

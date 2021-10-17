@@ -24,8 +24,9 @@ body,html {
 }
 .window:nth-last-of-type(1):not(.recent){
     animation:window-popin var(--transition-speed);
-    
-    /* transform:translate(0,0) !important; */
+}
+.window:nth-last-of-type(1):not(.recent) .navigator-animation-item{
+    animation:window-backin-item var(--transition-speed);
 }
 
 .window:not(.dragging){
@@ -49,6 +50,29 @@ body,html {
 }
 .window.rebacking:nth-last-of-type(n+2):not(.dragging) {
     transform:translate(var(--back-position),0) !important;
+}
+
+.window:not(.dragging) .navigator-animation-item {
+    transition:all var(--transition-speed) !important;
+}
+.window:nth-last-of-type(1):not(.dragging) .navigator-animation-item {
+    opacity:1 !important;
+}
+.window:nth-last-of-type(2+n):not(.dragging) .navigator-animation-item {
+    opacity:0 !important;
+}
+.window.removing:nth-last-of-type(1):not(.dragging) .navigator-animation-item {
+    opacity:0 !important;
+}
+.window.removing:nth-last-of-type(n+2):not(.dragging) .navigator-animation-item {
+    opacity:1 !important;
+}
+
+.window.rebacking:nth-last-of-type(1):not(.dragging) .navigator-animation-item {
+    opacity:1 !important;
+}
+.window.rebacking:nth-last-of-type(n+2):not(.dragging) .navigator-animation-item {
+    opacity:0 !important;
 }
 
 .window .gesture-area > * {

@@ -115,6 +115,9 @@ HTMLElement.prototype.gesture = function ($event) {
     var td = function (event) {
         var touchmove = function (event) {
             requestAnimationFrame(function () {
+                if (event.cancelable) {
+                    event.preventDefault();
+                }
                 var clientX = event.touches[0].clientX;
                 var clientY = event.touches[0].clientY;
                 var moveX = _this.gestureData.drag ? clientX - _this.gestureData.drag.position[0] : 0;
@@ -157,12 +160,13 @@ HTMLElement.prototype.gesture = function ($event) {
             });
         };
         var touchend = function (event) {
-            if (event.cancelable) {
-                event.preventDefault();
-            }
+            // if (event.cancelable) {
+            //     event.preventDefault();
+            // }
             document.removeEventListener('touchmove', touchmove);
             document.removeEventListener('touchend', touchend);
             if ($event[eventMap[event.type]] && eventMap[event.type] === 'dragEnd') {
+                // console.log(_this.gestureData,_this.gestureData.dragEnd);
                 _this.gestureData.dragEnd = _this.gestureData.drag ? _this.gestureData.drag : _this.gestureData.dragStart;
                 _this.gestureData.dragEnd.type = 'dragEnd';
                 $event[eventMap[event.type]](_this.gestureData.dragEnd, _this, event);
