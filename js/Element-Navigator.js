@@ -71,7 +71,7 @@
             let isDrag        = false;
             this.isTransition = false;
             
-            top.gst = top.gesture({
+            top.gst = gestureArea.gesture({
                 dragStart : (param,ele,evt) => {
                     if(this.isTransition)    return;
                     topAnimation.goToAndStop(this.start);
@@ -124,7 +124,6 @@
             this.endTransition();    
         }
         endTransition(){
-            this.isTransition = false;
             if(this.topWindow.classList.contains('removing')){
                 this.topWindow.removeEventListener('transitionend', this.endTransitionWrap);
                 this.topWindow.remove();
@@ -133,15 +132,8 @@
                 if(this.backWindow !== undefined){
                     this.backWindow.classList.remove('rebacking');
                 }
-                // this.bindGesture();
             }
-            this.itemTopAnimation.forEach(item => {
-                console.log(item,item.style)
-                item.style.transition = 'none';
-            });
-            this.itemBackAnimation.forEach(item => {
-                item.style.transition = 'none';
-            });
+            this.isTransition = false;
         }
 
         removeWindow(top, back){
@@ -153,21 +145,6 @@
                 back.classList.add('removing');
                 back.classList.remove('dragging');
             }
-
-            // this.itemTopAnimation.forEach(item => {
-            //     item.style.transition = 'all 0.5s';
-            //     const props = item.animation.props;
-            //     props.forEach(style => {
-            //         item.style[style] = item.animation.animation[item.animation.scrollDiff][style];
-            //     });
-            // });
-            // this.itemBackAnimation.forEach(item => {
-            //     item.style.transition = 'all 0.5s';
-            //     const props = item.animation.props;
-            //     props.forEach(style => {
-            //         item.style[style] = item.animation.animation[item.animation.scrollDiff][style];
-            //     });
-            // });
         }
         rebackWindow(top, back){
             top.classList.add('rebacking');
@@ -178,121 +155,11 @@
                 back.classList.add('rebacking');
                 back.classList.remove('dragging');
             }
-
-            // this.itemTopAnimation.forEach(item => {
-            //     item.style.transition = 'all 0.5s';
-            //     const props = item.animation.props;
-            //     props.forEach(style => {
-            //         item.style[style] = item.animation.animation[0][style];
-            //     });
-            // });
-            // this.itemBackAnimation.forEach(item => {
-            //     item.style.transition = 'all 0.5s';
-            //     const props = item.animation.props;
-            //     props.forEach(style => {
-            //         item.style[style] = item.animation.animation[0][style];
-            //     });
-            // });
         }
 
-        // bindWindowEvent($windowList,lng){
-        //     const _this = this;
-        //     const animation = 'window-backout';
-        //     const $window   = $windowList[lng];
-        //     const $windowBack = lng > 0 ? $windowList[lng-1] : null;
-        //     $window.animation  = new KeyframeAnimation($window, window, animation, this.start, this.end);
-        //     const gestureArea = $window.querySelector(':scope .gesture-area .back');
-
-        //     if($windowBack !== null){
-        //         $windowBack.animation = new KeyframeAnimation($windowBack, window, 'window-backin', this.start, this.end);
-        //     }
-            
-        //     const dragOffset = 10;
-
-        //     // $window.classList.add('notnew');
-            
-        //     let dragOn = false;
-        //     if($windowBack !== null){
-        //         $windowBack.gesture(false);
-        //     }
-
-        //     $window.addEventListener('transitionstart',_this.startTransition);
-        //     $window.addEventListener('transitionend',_this.endGesture);
-        //     // defineGesture();
-            
-        //     function defineGesture(){
-        //         $window.gesture({
-        //             dragStart : (param,ele,evt) => {
-        //                 $window.animation.goToAndStop(_this.start);
-        //                 $window.classList.add('dragging');
-        //                 if($windowBack !== null){
-        //                     $windowBack.animation.goToAndStop(_this.start);
-        //                     $windowBack.classList.add('dragging');
-        //                 }
-        //             },
-        //             drag      : (param,ele,evt) => {
-        //                 const [x, y] = param.distance;
-        //                 const frame  = Math.round(x);
-        //                 if(Math.abs(x) > dragOffset){ dragOn = true; }
-        //                 if(dragOn){
-        //                     $window.animation.goToAndStop(frame);
-        //                     if($windowBack !== null){
-        //                         $windowBack.animation.goToAndStop(frame);
-        //                     }
-        //                 }
-        //             },
-        //             dragEnd   : (param,ele,evt) => {
-        //                 if(!dragOn) return;
-        //                 const [x, y]   = param.distance;
-        //                 const [mx, my] = param.move;
-        //                 const [dx, dy] = param.direction;
-    
-        //                 if((dx > 0 && mx > 10) || (mx <= 10 && x > document.documentElement.offsetWidth/2)){
-        //                     _this.backWindow($window,$windowBack);
-        //                 }else{
-        //                     _this.rebackWindow($window,$windowBack);
-        //                 }
-    
-        //                 dragOn = false;
-        //             }
-        //         });
-        //     }
-
-        //     this.startTransition = (e) => {
-        //         console.log('hi');
-        //         $window.gesture(false);
-        //         if($windowBack !== null){ 
-        //             $windowBack.gesture(false);
-        //         }
-        //     }
-        //     this.endGesture = (e) => {
-        //         const ts = e.target;
-        //         if($windowBack !== null){
-        //             $windowBack.classList.remove('removing');
-        //             $windowBack.classList.remove('rebacking');
-        //         }
-        //         if(ts.classList.contains('removing')){
-        //             ts.animation.unload();
-        //             ts.remove();
-        //         }else{
-        //             $window.classList.remove('removing');
-        //             $window.classList.remove('rebacking');
-        //             defineGesture();
-        //         }
-        //     }
-
-        //     // function reback($window,$windowBack){
-        //     //     $window.classList.add('rebacking');
-        //     //     $window.classList.remove('dragging');
-                
-        //     //     if($windowBack !== null){ 
-        //     //         $windowBack.classList.add('recent');
-        //     //         $windowBack.classList.add('rebacking');
-        //     //         $windowBack.classList.remove('dragging');
-        //     //     }
-
-        //     // }
-        // }
+        back(){
+            this.removeWindow(this.topWindow, this.backWindow);
+        }
 
         nodeToArray(node){
             const arr = [];
@@ -301,49 +168,6 @@
             }
             return arr;
         }
-        // back(){
-        //     const $window = this.window[this.window.length-1];
-        //     const $windowBack = this.window[this.window.length-2];
-        //     if(this.window.length > 0){
-                
-        //         $window.gesture(false);
-        //         if($windowBack !== null){ 
-        //             $windowBack.gesture(false);
-        //         }
-        //         $window.animation.goToAndStop(this.start);
-
-        //         if($window !== null){
-        //             $window.animation.goToAndStop(this.start);
-        //         }
-        //         $window.addEventListener('transitionend',this.endGesture);
-        //         this.backWindow($window,$windowBack);
-        //     }
-        // }
-        // backWindow($window,$windowBack){
-        //     $window.classList.add('removing');
-        //     $window.classList.remove('dragging');
-
-        //     if($windowBack !== null){ 
-        //         $windowBack.classList.add('recent');
-        //         $windowBack.classList.add('removing');
-        //         $windowBack.classList.remove('dragging');
-        //     }
-
-        // }
-        // reback(){
-        //     this.rebackWindow(this.window[this.window.length-1],this.window[this.window.length-2]);
-        // }
-        // rebackWindow($window,$windowBack){
-        //     $window.classList.add('rebacking');
-        //     $window.classList.remove('dragging');
-            
-        //     if($windowBack !== null){ 
-        //         $windowBack.classList.add('recent');
-        //         $windowBack.classList.add('rebacking');
-        //         $windowBack.classList.remove('dragging');
-        //     }
-
-        // }
     }
     window.ElementNavigator = ElementNavigator;
 })();

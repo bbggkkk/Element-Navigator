@@ -52,7 +52,7 @@
                 () => {
 
                     let Y = Math.round(this.body.scrollTop);
-                    if(keyframe !== undefined && typeof keyframe === 'number')  Y = keyframe;
+                    if(keyframe !== undefined && typeof keyframe === 'number')  Y = Math.round(keyframe);
 
                     if(Y < this.scrollStart)    Y = this.scrollStart;
                     if(Y > this.scrollEnd)      Y = this.scrollEnd;
@@ -374,7 +374,6 @@
         }
         parseCSS($css){
             const css       = $css.replace(/;$/,"").match(/\{(.*?)\}/)[1].trim();
-            console.log(css);
             const cssJS     = css.replace(/\n|(;)$/g,"")
                 .split(";")
                 .map(item => item.replace(/\-([a-z])/g,(match,p1)=>p1.toUpperCase()))

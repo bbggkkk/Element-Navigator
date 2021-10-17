@@ -74,7 +74,6 @@
     }
     const eventFn = {
         touchstart : (e, callback, $this) => {
-            e.preventDefault();
             const data = {
                 start       : [e.touches[0].clientX, e.touches[0].clientY],
                 distance    : [0, 0, 0],
@@ -91,8 +90,8 @@
             document.addEventListener('touchend', globalEvent['touchend']), {passive:false};
         },
         touchmove : (e, callback, $this) => {
-            e.preventDefault();
             requestAnimationFrame(() => {
+                e.preventDefault();
                 const clientX   = e.touches[0].clientX,
                       clientY   = e.touches[0].clientY,
                       moveX     = gestureData ? clientX - gestureData.position[0] : 0,
@@ -101,6 +100,7 @@
                 const distance2 = clientY - gestureData.start[1];
                 const distance3 = Math.sqrt(Math.abs(distance1 * distance1) + Math.abs(distance2 * distance2));
                 const move3     = Math.sqrt(Math.abs(moveX * moveX) + Math.abs(moveY * moveY));
+
 
                 const data = {
                     start       : [gestureData.start[0], gestureData.start[1]],
@@ -118,7 +118,6 @@
             });
         },
         touchend : (e, callback, $this) => {
-            e.preventDefault();
             document.removeEventListener('touchmove', globalEvent['touchmove']);
             document.removeEventListener('touchend', globalEvent['touchend']);
             const data = Object.assign({}, gestureData, {type:'dragEnd'})

@@ -17,12 +17,12 @@
 }
 
 @keyframes window-backin {
-    from { transform:translateX(-50%); box-shadow:0 0px  0px rgba(0,0,0,0); }
-    to   { transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
+    from { -webkit-transform:translateX(-50%); transform:translateX(-50%); box-shadow:0 0px  0px rgba(0,0,0,0); }
+    to   { -webkit-transform:translateX(0%);   transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
 }
 @keyframes window-backout {
-    from { transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
-    to   { transform:translateX(100%); box-shadow:0 0px  0px rgba(0,0,0,0); }
+    from { -webkit-transform:translateX(0%);   transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
+    to   { -webkit-transform:translateX(100%); transform:translateX(100%); box-shadow:0 0px  0px rgba(0,0,0,0); }
 }
 
 @keyframes window-backin-item {

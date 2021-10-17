@@ -9,6 +9,7 @@
 
 body,html {
     overflow:hidden;
+    -webkit-overflow-scrolling: auto;
 }
 
 .window {
@@ -20,7 +21,7 @@ body,html {
     
     overflow:hidden;
     box-shadow:0 32px 64px rgba(0,0,0,0.2);
-    transform:translate(0,0);
+    transform:translateX(0);
 }
 .window:nth-last-of-type(1):not(.recent){
     animation:window-popin var(--transition-speed);
@@ -33,23 +34,23 @@ body,html {
     transition:all var(--transition-speed);
 }
 .window:nth-last-of-type(1):not(.dragging) {
-    transform:translate(0,0) !important;
+    transform:translateX(0) !important;
 }
 .window:nth-last-of-type(2+n):not(.dragging) {
-    transform:translate(var(--back-position),0) !important;
+    transform:translateX(var(--back-position)) !important;
 }
 .window.removing:nth-last-of-type(1):not(.dragging) {
-    transform:translate(100%,0) !important;
+    transform:translateX(100%) !important;
 }
 .window.removing:nth-last-of-type(n+2):not(.dragging) {
-    transform:translate(0,0) !important;
+    transform:translateX(0) !important;
 }
 
 .window.rebacking:nth-last-of-type(1):not(.dragging) {
-    transform:translate(0,0) !important;
+    transform:translateX(0) !important;
 }
 .window.rebacking:nth-last-of-type(n+2):not(.dragging) {
-    transform:translate(var(--back-position),0) !important;
+    transform:translateX(var(--back-position)) !important;
 }
 
 .window:not(.dragging) .navigator-animation-item {
