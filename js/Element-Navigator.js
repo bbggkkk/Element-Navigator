@@ -81,18 +81,19 @@
             
             top.addEventListener('transitionend', this.endTransitionWrap);
             this.endTransition();
-            if(!top.classList.contains('recent')){
-                top.addEventListener('animationend', this.endAnimationWrap);
-                this.isTransition  = true;
-            }
+            // if(!top.classList.contains('recent')){
+            //     top.addEventListener('animationend', this.endAnimationWrap);
+            //     this.isTransition  = true;
+            // }
             this.bindGesture(top, back, topAnimation, backAnimation, gestureArea, dragOffset, isBack, itemTopAnimation, itemBackAnimation);
         }
         bindGesture(top, back, topAnimation, backAnimation, gestureArea, dragOffset, isBack, itemTopAnimation, itemBackAnimation){
             let isDrag        = false;
+            this.isTransition = false;
 
             top.gst = gestureArea.gesture({
                 dragStart : (param,ele,evt) => {
-                    if(this.isTransition)       return;
+                    // if(this.isTransition)       return;
                     top.classList.add('dragging');
                     topAnimation.goToAndStop(this.start);
                     if(isBack){
@@ -104,7 +105,7 @@
                     itemBackAnimation.forEach(item => item.animation.goToAndStop(this.start));
                 },
                 drag      : (param,ele,evt) => {
-                    if(this.isTransition)    return;
+                    // if(this.isTransition)    return;
                     const [x, y] = param.distance;
                     const frame  = Math.round(x);
                     if(Math.abs(x) > dragOffset){
@@ -120,7 +121,7 @@
                     }
                 },
                 dragEnd   : (param,ele,evt) => {
-                    if(this.isTransition)       return;
+                    // if(this.isTransition)       return;
                     if(!isDrag)                 return;
                     this.isTransition = true;
 
