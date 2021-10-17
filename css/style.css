@@ -13,6 +13,10 @@ body,html {
     -webkit-overflow-scrolling: auto;
 }
 
+.hide {
+    visibility:hidden !important;
+}
+
 .window {
     position:fixed;
     top:0;
@@ -20,17 +24,21 @@ body,html {
     width:100%;
     height:100%;
     
-    overflow:hidden;
     box-shadow:0 32px 64px rgba(0,0,0,0.2);
-    transform:translateX(0);
 }
-.window:nth-last-of-type(1):not(.recent){
+/* .window:nth-last-of-type(1):not(.recent){
     animation:window-popin var(--transition-speed) var(--transition-ease);
 }
 .window:nth-last-of-type(1):not(.recent) .data-navigating-animation{
     animation:window-backin-item var(--transition-speed) var(--transition-ease);
-}
+} */
 
+.window:not(.no-fill) .fill {
+    position:fixed;
+    top:-9999%; left:-9999%; right:-9999%; bottom:-9999%;
+    background:black;
+    opacity:0;
+}
 .window:not(.dragging){
     transition:all var(--transition-speed) var(--transition-ease);
 }
@@ -60,6 +68,27 @@ body,html {
     left:0;
     background:#fff;
 
+    overflow:hidden;
+}
+
+.window.stack .window-view {
+    max-height:calc(100% - 36px);
+    top:auto;
+    bottom:0;
+
+    border-radius:12px;
+}
+.window.stack .gesture-area .gesture-area-back {
+    /* top:24px;
+    width:100%;
+    height:var(--gs-back-offset-w);
+    transform:none; */
+    display:none;
+}
+
+.window-view .window-scroll-area {
+    width:100%;
+    height:100%;
     overflow-x:hidden;
     overflow-y:auto;
 }
@@ -103,9 +132,9 @@ body,html {
 }
 
 .window-view main {
-    position:absolute;
-    top:0;
-    left:0;
+    position:relative;
+    /* top:0;
+    left:0; */
     padding-top:60px;
     z-index:2;
     -webkit-overflow-scrolling:touch;

@@ -31,6 +31,8 @@
                 });
                 item.classList.remove('removing');
                 item.classList.remove('rebacking');
+                if(idx < this.window.length-2) item.classList.add('hide');
+                else item.classList.remove('hide');
                 // item.gesture(false);
             });
 
@@ -40,9 +42,19 @@
             }
         }
         bindWindowEvent(top, back){
+            const direction     = top.getAttribute('data-gesture-direction') ? top.getAttribute('data-gesture-direction') : 'x';
+            if(direction === 'x')   
+                this.end = () => document.documentElement.offsetWidth;
+            else
+                this.end       = () => document.documentElement.offsetHeight;
             const isBack        = back !== undefined;
-            const animation     = top.getAttribute('data-window-in') ? top.getAttribute('data-window-in') : 'window-backout';
-            const bAnimation    = top.getAttribute('data-window-out') ? top.getAttribute('data-window-out') : 'window-backin';
+            const animation     = top.getAttribute('data-window-in') ? top.getAttribute('data-window-in') : 'window-backin';
+            const bAnimation    = top.getAttribute('data-window-out') ? top.getAttribute('data-window-out') : 'window-backout';
+
+            if(!top.classList.contains('recent')){
+                console.log(animation+' '+this.duration/1000+'s reverse cubic-bezier(.75,0,.75,1)');
+                top.style.animation = animation+' '+this.duration/1000+'s reverse cubic-bezier(.75,0,.75,1)';
+            }
 
             const topAnimation  = new KeyframeAnimation(top, window, animation, this.start, this.end);
             const gestureArea   = top.querySelector(':scope .gesture-area-back');
@@ -56,7 +68,7 @@
                 item.classList.remove('removing');
                 item.classList.remove('rebacking');
                 this.unbindGesture(item);
-            })
+            });
             
 
             const itemTopAnimation = this.nodeToArray(top.querySelectorAll(':scope .data-navigating-animation')).map(item => {
@@ -85,9 +97,9 @@
             //     top.addEventListener('animationend', this.endAnimationWrap);
             //     this.isTransition  = true;
             // }
-            this.bindGesture(top, back, topAnimation, backAnimation, gestureArea, dragOffset, isBack, itemTopAnimation, itemBackAnimation);
+            this.bindGesture(top, back, topAnimation, backAnimation, gestureArea, dragOffset, isBack, itemTopAnimation, itemBackAnimation, direction);
         }
-        bindGesture(top, back, topAnimation, backAnimation, gestureArea, dragOffset, isBack, itemTopAnimation, itemBackAnimation){
+        bindGesture(top, back, topAnimation, backAnimation, gestureArea, dragOffset, isBack, itemTopAnimation, itemBackAnimation, direction){
             let isDrag        = false;
             this.isTransition = false;
 
@@ -107,8 +119,9 @@
                 drag      : (param,ele,evt) => {
                     // if(this.isTransition)    return;
                     const [x, y] = param.distance;
-                    const frame  = Math.round(x);
-                    if(Math.abs(x) > dragOffset){
+                    const val    = direction === 'x' ? x : y;
+                    const frame  = Math.round(val);
+                    if(Math.abs(val) > dragOffset){
                         isDrag = true;
                     }
                     if(isDrag){
@@ -124,10 +137,11 @@
                     // if(this.isTransition)       return;
                     if(!isDrag)                 return;
                     this.isTransition = true;
+                    const val    = direction === 'x' ? 0 : 1;
 
-                    const [x, y]   = param.distance;
-                    const [mx, my] = param.move;
-                    const [dx, dy] = param.direction;
+                    const x   = param.distance[val];
+                    const mx  = param.move[val];
+                    const dx  = param.direction[val];
 
                     if((dx > 0 && mx > 10) || (mx <= 10 && x > document.documentElement.offsetWidth/2)){
                         this.removeWindow(top, back);

@@ -41,7 +41,11 @@
 
     document.querySelector('#button').bindClick((e) => {
         if(window.elementNavigator.isTransition)    return;
-        document.body.append(document.importNode(document.querySelector('template').content,true));
+        document.body.append(document.importNode(document.querySelector('template#x').content,true));
+    });
+    document.querySelector('#button-y').bindClick((e) => {
+        if(window.elementNavigator.isTransition)    return;
+        document.body.append(document.importNode(document.querySelector('template#y').content,true));
     });
 
 })();

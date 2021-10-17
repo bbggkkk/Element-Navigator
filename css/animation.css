@@ -1,4 +1,4 @@
-@keyframes window-popup {
+/* @keyframes window-popup {
     from { transform:translateY(100%); }
     to   { transform:translateY(0%); }
 }
@@ -14,15 +14,38 @@
 @keyframes window-popout {
     from { transform:translateX(0%); }
     to   { transform:translateX(100%); }
+} */
+
+@keyframes none {
+    from { opacity:1; }
+    to   { opacity:1; }
 }
 
-@keyframes window-backin {
-    from { -webkit-transform:translateX(-50%); transform:translateX(-50%); box-shadow:0 0px  0px rgba(0,0,0,0); }
-    to   { -webkit-transform:translateX(0%);   transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
+@keyframes window-fillin {
+    from { opacity:0.5; }
+    to   { opacity:0.5; }
 }
+@keyframes window-fillout {
+    from { opacity:0.5; }
+    to   { opacity:0; }
+}
+
 @keyframes window-backout {
-    from { -webkit-transform:translateX(0%);   transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
-    to   { -webkit-transform:translateX(100%); transform:translateX(100%); box-shadow:0 0px  0px rgba(0,0,0,0); }
+    from { transform:translateX(-50%); box-shadow:0 0px  0px rgba(0,0,0,0); }
+    to   { transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
+}
+@keyframes window-backin {
+    from { transform:translateX(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
+    to   { transform:translateX(100%); box-shadow:0 0px  0px rgba(0,0,0,0); }
+}
+
+@keyframes window-backout-y {
+    from { transform:translateY(-10%) scale(0.9);   border-radius:24px; }
+    to   { transform:translateY(0%) scale(1);      border-radius:0px; }
+}
+@keyframes window-backin-y {
+    from { transform:translateY(0%);   box-shadow:0 32px 64px rgba(0,0,0,0.2); }
+    to   { transform:translateY(100%); box-shadow:0 0px  0px rgba(0,0,0,0); }
 }
 
 @keyframes window-backin-item {
