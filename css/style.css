@@ -3,7 +3,8 @@
     --gs-back-offset-h:100%;
 
     --content-padding:12px;
-    --transition-speed:0.5s;
+    --transition-speed:0.4s;
+    --transition-ease:ease;
     --back-position:-50%;
 }
 
@@ -24,37 +25,17 @@ body,html {
     transform:translateX(0);
 }
 .window:nth-last-of-type(1):not(.recent){
-    animation:window-popin var(--transition-speed);
+    animation:window-popin var(--transition-speed) var(--transition-ease);
 }
-.window:nth-last-of-type(1):not(.recent) .navigator-animation-item{
-    animation:window-backin-item var(--transition-speed);
+.window:nth-last-of-type(1):not(.recent) .data-navigating-animation{
+    animation:window-backin-item var(--transition-speed) var(--transition-ease);
 }
 
 .window:not(.dragging){
-    transition:all var(--transition-speed);
+    transition:all var(--transition-speed) var(--transition-ease);
 }
-.window:nth-last-of-type(1):not(.dragging) {
-    transform:translateX(0) !important;
-}
-.window:nth-last-of-type(2+n):not(.dragging) {
-    transform:translateX(var(--back-position)) !important;
-}
-.window.removing:nth-last-of-type(1):not(.dragging) {
-    transform:translateX(100%) !important;
-}
-.window.removing:nth-last-of-type(n+2):not(.dragging) {
-    transform:translateX(0) !important;
-}
-
-.window.rebacking:nth-last-of-type(1):not(.dragging) {
-    transform:translateX(0) !important;
-}
-.window.rebacking:nth-last-of-type(n+2):not(.dragging) {
-    transform:translateX(var(--back-position)) !important;
-}
-
 .window:not(.dragging) .data-navigating-animation {
-    transition:all var(--transition-speed);
+    transition:all var(--transition-speed) var(--transition-ease);
 }
 
 .window .gesture-area > * {

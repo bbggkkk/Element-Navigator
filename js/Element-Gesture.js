@@ -23,17 +23,17 @@
     const util = {
         bind : function($this, event){
             const fn = this.getEvent($this, event);
-            $this.addEventListener('touchstart', fn.touchstart, {passive:false});
-            $this.addEventListener('mousedown', fn.mousedown, {passive:false});
+            $this.addEventListener('touchstart', globalEvent.touchstart, {passive:false});
+            $this.addEventListener('mousedown', globalEvent.mousedown, {passive:false});
         },
         unbind : function($this, event){
             const eventList   = event === undefined ? ['dragStart', 'drag', 'dragEnd'] : event;
-            const removeEvent = eventList.reduce((acc,item) => {
+            this.removeEvent($this, eventList);
+            const removeEventList = eventList.reduce((acc,item) => {
                 acc[item] = () => {};
                 return acc;
             },[]);
-            this.removeEvent($this, eventList);
-            // this.bind($this, removeEvent);
+            // this.bind($this, removeEventList);
         },
         removeEvent : function($this, eventNameList){
             eventNameList.forEach(item => {

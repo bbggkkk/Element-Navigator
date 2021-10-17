@@ -22,7 +22,8 @@
     </button>
 
     <template>
-        <div class="window">
+        <div class="window" data-window-in=""
+                            data-window-out="">
             <div class="window-view gesture-area-back">
                 <header>
                     <div class="title">Window <span data-bind="idx"></span></div>
@@ -32,7 +33,8 @@
                     </div>
                 </header>
                 <main class="data-navigating-animation"     data-navigating-animation-in="window-backin-item"
-                                                            data-navigating-animation-out="window-backout-item">
+                                                            data-navigating-animation-out="window-backout-item"
+                                                            onanimationend="((event) => { event.stopPropagation(); })(event);">
                     <div>
                         <img src="https://images.unsplash.com/photo-1634461658840-50f599f76e6a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80"/>
                     </div>
