@@ -4,6 +4,7 @@
             this.root   = root;
             this.window = [];
             
+            this.duration  = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-speed'))*1000; 
             this.start     = 0;
             this.end       = () => document.documentElement.offsetWidth;
             
@@ -55,7 +56,7 @@
 
             if(isBack){
                 back.removeEventListener('transitionend', this.endTransitionWrap);
-                back.gst.unbind(back);
+                this.unbindGesture(back);
                 itemBackAnimation = this.nodeToArray(back.querySelectorAll(':scope .data-navigating-animation')).map(item => {
                     item.animation.unload();
                     item.animation = new KeyframeAnimation(item, window, item.getAttribute('data-navigating-animation-in'), this.start, this.end);
@@ -65,6 +66,7 @@
 
             this.itemTopAnimation = itemTopAnimation;
             this.itemBackAnimation = itemBackAnimation;
+            this.endTransition();
             
             top.addEventListener('transitionend',   this.endTransitionWrap);
             this.bindGesture(top, back, topAnimation, backAnimation, gestureArea, dragOffset, isBack, itemTopAnimation, itemBackAnimation);
@@ -106,6 +108,7 @@
                 dragEnd   : (param,ele,evt) => {
                     if(this.isTransition)    return;
                     if(!isDrag) return;
+                    this.isTransition = true;
 
                     const [x, y]   = param.distance;
                     const [mx, my] = param.move;
@@ -116,11 +119,13 @@
                     }else{
                         this.rebackWindow(top,back);
                     }
-                    this.isTransition = true;
                     isDrag = false;
                 }
             });
-
+        }
+        unbindGesture(back){
+            this.isTransition = true;
+            back.gst.unbind(back);
         }
         
         endTransitionWrap = () => {
@@ -141,46 +146,39 @@
         }
 
         removeWindow(top, back){
-            top.classList.add('removing');
             top.classList.remove('dragging');
+            top.classList.add('removing');
             
             if(back !== undefined){ 
+                back.classList.remove('dragging');
                 back.classList.add('recent');
                 back.classList.add('removing');
-                back.classList.remove('dragging');
             }
 
             this.itemTopAnimation.forEach(item => {
-                const ani   = item.animation
-
-                item.style.transform = 'translateY(0)';
-                item.style.opacity   = 1;
-                // console.log(ani,ani.animation[ani.scrollDiff]);
-                // ani.goToAndStop(ani.scrollDiff);
+                const ani   = item.animation;
+                ani.goToAndStop(ani.scrollDiff);
             });
             this.itemBackAnimation.forEach(item => {
-                const ani   = item.animation
-                console.log(item, ani);
-                item.style.transform = 'translateY(0)';
-                item.style.opacity   = 1;
-                // ani.goToAndStop(ani.scrollDiff);
+                const ani   = item.animation;
+                ani.goToAndStop(ani.scrollDiff);
             });
         }
         rebackWindow(top, back){
-            top.classList.add('rebacking');
             top.classList.remove('dragging');
+            top.classList.add('rebacking');
             
             if(back !== undefined){ 
+                back.classList.remove('dragging');
                 back.classList.add('recent');
                 back.classList.add('rebacking');
-                back.classList.remove('dragging');
             }
             this.itemTopAnimation.forEach(item => {
-                const ani   = item.animation
+                const ani   = item.animation;
                 ani.goToAndStop(0);
             });
             this.itemBackAnimation.forEach(item => {
-                const ani   = item.animation
+                const ani   = item.animation;
                 ani.goToAndStop(0);
             });
         }
