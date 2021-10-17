@@ -40,7 +40,6 @@
     }
 
     document.querySelector('#button').bindClick((e) => {
-        console.log(window.elementNavigator.isTransition);
         if(window.elementNavigator.isTransition)    return;
         document.body.append(document.importNode(document.querySelector('template').content,true));
     });
