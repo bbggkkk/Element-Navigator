@@ -32,8 +32,10 @@
                 // item.gesture(false);
             });
 
-            if(this.window.length > 0)
-            this.bindWindowEvent(this.topWindow, this.backWindow);
+            if(this.window.length > 0){
+                this.topWindow.onloaded();
+                this.bindWindowEvent(this.topWindow, this.backWindow);
+            }
         }
         bindWindowEvent(top, back){
             const isBack        = back !== undefined;
@@ -41,21 +43,22 @@
             const bAnimation    = 'window-backin';
 
             const topAnimation  = new KeyframeAnimation(top, window, animation, this.start, this.end);
-            const gestureArea   = top.querySelector(':scope .gesture-area .back');
+            const gestureArea   = top.querySelector(':scope .gesture-area-back');
             const backAnimation = isBack ? new KeyframeAnimation(back, window, bAnimation, this.start, this.end) : undefined;
 
-            const itemTopAnimation = this.nodeToArray(top.querySelectorAll(':scope .navigator-animation-item')).map(item => {
-                item.animation = new KeyframeAnimation(item, window, animation+'-item', this.start, this.end);
+            const itemTopAnimation = this.nodeToArray(top.querySelectorAll(':scope .data-navigating-animation')).map(item => {
+                item.animation = new KeyframeAnimation(item, window, item.getAttribute('data-navigating-animation-out'), this.start, this.end);
                 return item;
             });
             let itemBackAnimation = []; 
             const dragOffset    = 10;
 
             if(isBack){
-                back.removeEventListener('transitionend',   this.endTransitionWrap);
+                back.removeEventListener('transitionend', this.endTransitionWrap);
                 back.gst.unbind(back);
-                itemBackAnimation = this.nodeToArray(back.querySelectorAll(':scope .navigator-animation-item')).map(item => {
-                    item.animation = new KeyframeAnimation(item, window, bAnimation+'-item', this.start, this.end);
+                itemBackAnimation = this.nodeToArray(back.querySelectorAll(':scope .data-navigating-animation')).map(item => {
+                    item.animation.unload();
+                    item.animation = new KeyframeAnimation(item, window, item.getAttribute('data-navigating-animation-in'), this.start, this.end);
                     return item;
                 });
             }
@@ -124,14 +127,15 @@
             this.endTransition();    
         }
         endTransition(){
+            if(this.backWindow !== undefined){
+                this.backWindow.classList.remove('rebacking');
+                this.backWindow.classList.remove('removing');
+            }
             if(this.topWindow.classList.contains('removing')){
                 this.topWindow.removeEventListener('transitionend', this.endTransitionWrap);
                 this.topWindow.remove();
             }else{
                 this.topWindow.classList.remove('rebacking');
-                if(this.backWindow !== undefined){
-                    this.backWindow.classList.remove('rebacking');
-                }
             }
             this.isTransition = false;
         }
@@ -145,6 +149,22 @@
                 back.classList.add('removing');
                 back.classList.remove('dragging');
             }
+
+            this.itemTopAnimation.forEach(item => {
+                const ani   = item.animation
+
+                item.style.transform = 'translateY(0)';
+                item.style.opacity   = 1;
+                // console.log(ani,ani.animation[ani.scrollDiff]);
+                // ani.goToAndStop(ani.scrollDiff);
+            });
+            this.itemBackAnimation.forEach(item => {
+                const ani   = item.animation
+                console.log(item, ani);
+                item.style.transform = 'translateY(0)';
+                item.style.opacity   = 1;
+                // ani.goToAndStop(ani.scrollDiff);
+            });
         }
         rebackWindow(top, back){
             top.classList.add('rebacking');
@@ -155,6 +175,14 @@
                 back.classList.add('rebacking');
                 back.classList.remove('dragging');
             }
+            this.itemTopAnimation.forEach(item => {
+                const ani   = item.animation
+                ani.goToAndStop(0);
+            });
+            this.itemBackAnimation.forEach(item => {
+                const ani   = item.animation
+                ani.goToAndStop(0);
+            });
         }
 
         back(){

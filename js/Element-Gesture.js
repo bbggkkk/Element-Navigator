@@ -18,6 +18,7 @@
         type        : ''
     };
     let globalEvent = {};
+    let gestureEnd  = false;
     
     const util = {
         bind : function($this, event){
@@ -74,6 +75,8 @@
     }
     const eventFn = {
         touchstart : (e, callback, $this) => {
+            gestureEnd = false;
+            e.preventDefault();
             const data = {
                 start       : [e.touches[0].clientX, e.touches[0].clientY],
                 distance    : [0, 0, 0],
@@ -86,11 +89,12 @@
             }
             gestureData = data;
             callback(data, $this, e);
-            document.addEventListener('touchmove', globalEvent['touchmove'], {passive:false});
-            document.addEventListener('touchend', globalEvent['touchend']), {passive:false};
+            document.addEventListener('touchmove', globalEvent['touchmove'], {capture:false, passive:false});
+            document.addEventListener('touchend', globalEvent['touchend']), {capture:false, passive:false};
         },
         touchmove : (e, callback, $this) => {
             requestAnimationFrame(() => {
+                if(gestureEnd) return;
                 e.preventDefault();
                 const clientX   = e.touches[0].clientX,
                       clientY   = e.touches[0].clientY,
@@ -118,6 +122,7 @@
             });
         },
         touchend : (e, callback, $this) => {
+            gestureEnd = true;
             document.removeEventListener('touchmove', globalEvent['touchmove']);
             document.removeEventListener('touchend', globalEvent['touchend']);
             const data = Object.assign({}, gestureData, {type:'dragEnd'})
@@ -125,6 +130,7 @@
             callback(data, $this, e);
         },
         mousedown : (e, callback, $this) => {
+            gestureEnd = false;
             const data = {
                 start       : [e.clientX, e.clientY],
                 distance    : [0, 0, 0],
@@ -143,6 +149,7 @@
         mousemove : (e, callback, $this) => {
             e.preventDefault();
             requestAnimationFrame(() => {
+                if(gestureEnd) return;
                 const clientX   = e.clientX,
                       clientY   = e.clientY,
                       moveX     = e.movementX,
@@ -168,7 +175,7 @@
             });
         },
         mouseup : (e, callback, $this) => {
-            e.preventDefault();
+            gestureEnd = true;
             document.removeEventListener('mousemove', globalEvent['mousemove']);
             document.removeEventListener('mouseup', globalEvent['mouseup']);
             const data = Object.assign({}, gestureData, {type:'dragEnd'})

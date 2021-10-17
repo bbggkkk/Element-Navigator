@@ -53,27 +53,8 @@ body,html {
     transform:translateX(var(--back-position)) !important;
 }
 
-.window:not(.dragging) .navigator-animation-item {
-    transition:all var(--transition-speed) !important;
-}
-.window:nth-last-of-type(1):not(.dragging) .navigator-animation-item {
-    opacity:1 !important;
-}
-.window:nth-last-of-type(2+n):not(.dragging) .navigator-animation-item {
-    opacity:0 !important;
-}
-.window.removing:nth-last-of-type(1):not(.dragging) .navigator-animation-item {
-    opacity:0 !important;
-}
-.window.removing:nth-last-of-type(n+2):not(.dragging) .navigator-animation-item {
-    opacity:1 !important;
-}
-
-.window.rebacking:nth-last-of-type(1):not(.dragging) .navigator-animation-item {
-    opacity:1 !important;
-}
-.window.rebacking:nth-last-of-type(n+2):not(.dragging) .navigator-animation-item {
-    opacity:0 !important;
+.window:not(.dragging) .data-navigating-animation {
+    transition:all var(--transition-speed);
 }
 
 .window .gesture-area > * {

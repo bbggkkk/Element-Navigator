@@ -16,32 +16,33 @@
     <!-- <div id="test"  style="width:100%; height:100%; background:#f2f2f2; display:flex; justify-content:center; align-items:center;">
         <button id="button" style="width:50%; height:60px; background:#1a1a1a; color:#fff; display:flex; justify-content:center; align-items:center; border-radius:16px; box-shadow:0 8px 16px rgba(0,0,0,0.2);">Button</button>
     </div> -->
-
-    <button     style="position:fixed; bottom:12px; right:12px; background:rgba(24,24,24,0.9); color:white; font-weight:bold; display:flex; justify-content:center; align-items:center; border-radius:50%; width:64px; height:64px; box-shadow:0 8px 16px rgba(0,0,0,0.2); font-size:12px; z-index:9999;"
-                onclick="document.body.append(document.importNode(document.querySelector('template').content,true));">
+    
+    <button     id="button" style="position:fixed; bottom:12px; right:12px; background:rgba(24,24,24,0.9); color:white; font-weight:bold; display:flex; justify-content:center; align-items:center; border-radius:50%; width:64px; height:64px; box-shadow:0 8px 16px rgba(0,0,0,0.2); font-size:12px; z-index:9999;">
         추가
     </button>
 
     <template>
         <div class="window">
-            <div class="window-view">
+            <div class="window-view gesture-area-back">
                 <header>
-                    <div class="title navigator-animation-item">Window <span data-bind="idx"></span></div>
+                    <div class="title">Window <span data-bind="idx"></span></div>
                     <div class="fn">
-                        <div class="fn-area fn-left"    onclick="((event) => {
-                            window.elementNavigator.back();
-                        })(event);">back</div>
+                        <div class="fn-area fn-left"    bind-event="window.elementNavigator.back();">back</div>
                         <div class="fn-area fn-right">go</div>
                     </div>
                 </header>
-                <main>
+                <main class="data-navigating-animation"     data-navigating-animation-in="window-backin-item"
+                                                            data-navigating-animation-out="window-backout-item">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1634461658840-50f599f76e6a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80"/>
+                    </div>
                     <div class="content-wrap">
                         hi
                     </div>
                 </main>
             </div>
             <div class="gesture-area">
-                <p class="back"></p>
+                <p class="gesture-area-back"></p>
             </div>
         </div>
     </template>
