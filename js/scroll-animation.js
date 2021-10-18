@@ -1,18 +1,22 @@
 (function(){
 
     class KeyframeAnimation {
-        constructor(element, scrollTarget, animationName, start, end){
-            this.onload(element, scrollTarget, animationName, start, end);
+        constructor(element, scrollTarget, animationName, start, end, option = {}){
+            this.onload(element, scrollTarget, animationName, start, end, option);
             this.init();
             this.loadOther();
             this.load();
 
 
         }
-        onload(element, scrollTarget, animationName, start, end) {
+        onload(element, scrollTarget, animationName, start, end, {
+            keyframeRangeMultiply = 1
+        }) {
             this.element        = element;
             this.scrollTarget   = scrollTarget;
             this.animationName  = animationName;
+
+            this.keyframeRangeMultiply = keyframeRangeMultiply;
 
             this.dataScrollStart = start;
             this.dataScrollEnd   = end;
@@ -33,12 +37,12 @@
         }
         loadOther() {
             setTimeout(() => {
-                for(let i=0; i<=this.scrollEnd; i++){
-                    if(this.animation[i] === undefined){
-                        setTimeout(() => {
+                for(let i=0; i<=this.scrollDiff; i++){
+                    setTimeout(() => {
+                        if(this.animation[i] === undefined){
                             this.animation[i] = this.fillUndefinedSingle(this.animation[i], this.element, this.animationMap, this.aniMapKeys, i, this.props);
-                        },0);
-                    }
+                        }
+                    },0);
                 }
             },0);
         }
@@ -52,12 +56,12 @@
             if(this.scrolling)  return;
             this.scrolling = true;
 
-            let Y = Math.round(this.body.scrollTop);
-            if(keyframe !== undefined && typeof keyframe === 'number')  Y = Math.round(keyframe);
+            let Y = this.body.scrollTop;
+            if(keyframe !== undefined && typeof keyframe === 'number')  Y = keyframe;
 
             if(Y < this.scrollStart)    Y = this.scrollStart;
             if(Y > this.scrollEnd)      Y = this.scrollEnd;
-            Y = Y - this.scrollStart;
+            Y = (Math.round(Y) - this.scrollStart)*this.keyframeRangeMultiply;
             if(this.prevScroll === Y) {
                 this.element.style.willChange = 'auto';
                 this.scrolling = false;
@@ -70,11 +74,10 @@
             }
 
 
-            this.prevScroll = Y;
+            this.prevScroll = Y/this.keyframeRangeMultiply;
             if(this.animation[Y] === undefined){
                 this.animation[Y] = this.fillUndefinedSingle(this.animation[Y], this.element, this.animationMap, this.aniMapKeys, Y, this.props);
             }
-            
             if(this.animation[Y] !== undefined){
                 const keys = this.props;
                 keys.forEach(item => {
@@ -94,10 +97,10 @@
             this.prevScroll   = undefined;
             this.scrollStart  = this.dataScrollStart !== null ? Math.round(+this.isEval(this.dataScrollStart)) : Math.round(this.body.offsetTop);
             this.scrollEnd    = this.dataScrollEnd !== null ? Math.round(+this.isEval(this.dataScrollEnd)) : Math.round(this.body.offsetTop + this.body.scrollHeight - this.body.offsetHeight);
-            this.scrollDiff   = this.scrollEnd - this.scrollStart;
+            this.scrollDiff   = (this.scrollEnd - this.scrollStart)*this.keyframeRangeMultiply;
     
     
-            this.animationMap = this.propsKeyNumlize(this.propsNormalize(this.element,this.animationCss,this.props),this.scrollStart,this.scrollEnd);
+            this.animationMap = this.propsKeyNumlize(this.propsNormalize(this.element,this.animationCss,this.props),this.scrollDiff);
             
             this.aniMapKeys   = Object.keys(this.animationMap);
             this.binMap       = this.createAnimationKeyframe(this.animationMap,this.scrollStart,this.scrollEnd);
@@ -162,8 +165,8 @@
             return props;
         }
     
-        propsKeyNumlize(normalProp,scrollStart,scrollEnd){
-            const diff = scrollEnd - scrollStart;
+        propsKeyNumlize(normalProp,scrollDiff){
+            const diff = scrollDiff;
             // console.log(scrollEnd,scrollStart);
             const percent = (diff/100);
             const numProp = Object.keys(normalProp).reduce((acc,item) => {

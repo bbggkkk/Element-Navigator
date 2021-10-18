@@ -56,9 +56,13 @@
                 top.style.animation = animation+' '+this.duration/1000+'s reverse cubic-bezier(.75,0,.75,1)';
             }
 
-            const topAnimation  = new KeyframeAnimation(top, window, animation, this.start, this.end);
+            const option = {
+                keyframeRangeMultiply : 1
+            }
+
+            const topAnimation  = new KeyframeAnimation(top, window, animation, this.start, this.end, option);
             const gestureArea   = top.querySelector(':scope .gesture-area-back');
-            const backAnimation = isBack ? new KeyframeAnimation(back, window, bAnimation, this.start, this.end) : undefined;
+            const backAnimation = isBack ? new KeyframeAnimation(back, window, bAnimation, this.start, this.end, option) : undefined;
 
             this.topGestureArea = gestureArea;
 
@@ -72,7 +76,7 @@
             
 
             const itemTopAnimation = this.nodeToArray(top.querySelectorAll(':scope .data-navigating-animation')).map(item => {
-                item.animation = new KeyframeAnimation(item, window, item.getAttribute('data-navigating-animation-out'), this.start, this.end);
+                item.animation = new KeyframeAnimation(item, window, item.getAttribute('data-navigating-animation-out'), this.start, this.end, option);
                 return item;
             });
             let itemBackAnimation = []; 
@@ -81,7 +85,7 @@
             if(isBack){
                 itemBackAnimation = this.nodeToArray(back.querySelectorAll(':scope .data-navigating-animation')).map(item => {
                     item.animation.unload();
-                    item.animation = new KeyframeAnimation(item, window, item.getAttribute('data-navigating-animation-in'), this.start, this.end);
+                    item.animation = new KeyframeAnimation(item, window, item.getAttribute('data-navigating-animation-in'), this.start, this.end, option);
                     return item;
                 });
             }
